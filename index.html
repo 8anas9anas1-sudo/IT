@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="مرجع تفاعلي لأساسيات تطوير الويب (HTML5) لمادة ITGS226">
+<meta name="theme-color" content="#1d4ed8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:title" content="ITGS226 | مرجع أساسيات الويب">
+<meta property="og:description" content="مرجع تفاعلي لأساسيات تطوير الويب (HTML5) مع اختبار قصير">
+<title>ITGS226 | مرجع أساسيات الويب - أنس أسامة</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* تطبيق المظهر المحفوظ قبل رسم الصفحة لتجنب الوميض */
+try {
+  var t = localStorage.getItem('theme');
+  if (t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches)
+    document.documentElement.classList.add('dark-mode');
+} catch (e) {}
+</script>
+<style>
+:root {
+  --bg-body:#f8fafc; --bg-card:#fff; --text-main:#1e293b; --text-muted:#475569;
+  --primary:#1d4ed8; --primary-light:#eff6ff; --border:#e2e8f0;
+  --code-bg:#f8fafc; --code-text:#334155; color-scheme:light;
+}
+.dark-mode {
+  --bg-body:#0f172a; --bg-card:#1e293b; --text-main:#f1f5f9; --text-muted:#a8b5c9;
+  --primary:#60a5fa; --primary-light:#172554; --border:#334155;
+  --code-bg:#0b1120; --code-text:#cbd5e1; color-scheme:dark;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-padding-top:1rem; }
+@media (prefers-reduced-motion:no-preference) { html { scroll-behavior:smooth; } }
+body {
+  font-family:'IBM Plex Sans Arabic',Tahoma,sans-serif;
+  background:var(--bg-body); color:var(--text-main); display:flex; line-height:1.8;
+  transition:background .3s,color .3s;
+}
+pre, code, .keyword, .glossary-term, textarea, .sandbox-header { font-family:'Fira Code',Consolas,monospace; }
+:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
+
+/* القائمة الجانبية */
+.sidebar {
+  width:280px; height:100vh; height:100dvh; position:fixed; top:0; right:0;
+  background:var(--bg-card); border-left:1px solid var(--border);
+  padding:2rem 1.5rem; overflow-y:auto; z-index:1000;
+}
+.brand { color:var(--primary); font-size:1.2rem; margin-bottom:2rem; font-weight:700; text-align:center; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:.5rem; }
+.sidebar a {
+  color:var(--text-muted); text-decoration:none; display:block; padding:.6rem 1rem;
+  border-radius:6px; transition:.2s; font-weight:500; font-size:.95rem;
+}
+.sidebar a:hover, .sidebar a.active { background:var(--primary-light); color:var(--primary); }
+
+.theme-btn {
+  position:fixed; bottom:20px; left:20px; z-index:1001; background:var(--bg-card);
+  color:var(--text-main); border:1px solid var(--border); padding:.6rem 1rem;
+  border-radius:6px; cursor:pointer; font:600 .9rem inherit; font-family:inherit;
+  box-shadow:0 2px 5px rgba(0,0,0,.08); transition:.2s;
+}
+.theme-btn:hover { background:var(--primary-light); color:var(--primary); }
+
+/* المحتوى */
+.main-content { margin-right:280px; padding:3rem 4rem; width:calc(100% - 280px); max-width:1000px; }
+.hero { padding-bottom:2rem; border-bottom:2px solid var(--border); margin-bottom:3rem; }
+.hero h1 { font-size:2.5rem; margin-bottom:1rem; font-weight:700; line-height:1.4; }
+.hero p { font-size:1.1rem; color:var(--text-muted); }
+.meta {
+  margin-top:1rem; font-size:.9rem; color:var(--text-muted); background:var(--bg-card);
+  display:inline-block; padding:.3rem .8rem; border-radius:4px; border:1px solid var(--border);
+}
+.section-title {
+  font-size:1.6rem; color:var(--primary); margin:3rem 0 1.5rem; padding-bottom:.5rem;
+  border-bottom:1px solid var(--border); font-weight:700; display:flex; align-items:center; gap:10px;
+}
+.section-title::before { content:""; width:8px; height:24px; background:var(--primary); border-radius:4px; flex:none; }
+
+.card {
+  background:var(--bg-card); border-radius:8px; padding:1.8rem; margin-bottom:1.5rem;
+  border:1px solid var(--border); box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.card h3 { margin-bottom:1rem; font-size:1.2rem; font-weight:600; }
+.card p { color:var(--text-muted); margin-bottom:.8rem; font-size:1.05rem; }
+.card ul { padding-right:1.5rem; margin-bottom:1rem; color:var(--text-muted); }
+.card li { margin-bottom:.5rem; }
+.card code { font-size:.9rem; direction:ltr; display:inline-block; color:var(--code-text); background:var(--code-bg); border:1px solid var(--border); padding:0 .35rem; border-radius:4px; }
+.keyword {
+  background:var(--primary-light); color:var(--primary); padding:.1rem .4rem; border-radius:4px;
+  font-size:.9rem; direction:ltr; display:inline-block; font-weight:500;
+}
+pre {
+  background:var(--code-bg); padding:1.2rem; border-radius:8px; direction:ltr; text-align:left;
+  overflow-x:auto; border:1px solid var(--border); margin:1rem 0; font-size:.9rem;
+  color:var(--code-text); line-height:1.5;
+}
+
+/* المختبر */
+.sandbox-container { display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem; }
+.sandbox-box {
+  flex:1; min-width:min(300px,100%); background:var(--code-bg); border-radius:8px;
+  border:1px solid var(--border); overflow:hidden; display:flex; flex-direction:column;
+}
+.sandbox-header {
+  background:var(--bg-card); padding:.5rem 1rem; font-size:.85rem;
+  border-bottom:1px solid var(--border); color:var(--text-muted); font-weight:600;
+}
+textarea {
+  width:100%; height:250px; background:transparent; color:var(--text-main); border:none;
+  outline:none; font-size:.9rem; padding:1rem; resize:none; direction:ltr; text-align:left;
+}
+textarea:focus-visible { outline:2px solid var(--primary); outline-offset:-2px; }
+iframe { width:100%; height:250px; border:none; background:#fff; }
+
+/* القاموس */
+.glossary-item { display:flex; gap:1rem; align-items:flex-start; padding:1rem; border-bottom:1px solid var(--border); }
+.glossary-item:last-child { border-bottom:none; }
+.glossary-term { min-width:120px; font-weight:700; color:var(--primary); direction:ltr; text-align:left; }
+.glossary-def { color:var(--text-muted); }
+
+footer { text-align:center; padding:3rem 0; color:var(--text-muted); font-size:.9rem; border-top:1px solid var(--border); margin-top:3rem; }
+
+/* الاختبار */
+.quiz-top { display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; color:var(--text-muted); font-size:.95rem; }
+.quiz-bar { flex:1; height:8px; background:var(--border); border-radius:99px; overflow:hidden; }
+.quiz-bar span { display:block; height:100%; width:0; background:var(--primary); transition:width .3s; }
+.q-card { background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:1.5rem; margin-bottom:1.2rem; }
+.q-head { display:flex; justify-content:space-between; align-items:center; gap:.5rem; flex-wrap:wrap; margin-bottom:.8rem; }
+.q-num { font-weight:700; color:var(--primary); }
+.q-lesson { font-size:.8rem; color:var(--text-muted); border:1px solid var(--border); border-radius:99px; padding:.1rem .8rem; }
+.q-text { font-size:1.1rem; font-weight:600; margin-bottom:1rem; }
+.opts { display:grid; gap:.6rem; }
+.opt {
+  display:flex; align-items:center; gap:.8rem; width:100%; text-align:right; font:inherit;
+  background:var(--bg-body); color:var(--text-main); border:1px solid var(--border);
+  border-radius:8px; padding:.7rem 1rem; cursor:pointer; transition:.2s;
+}
+.opt:hover:not(:disabled) { border-color:var(--primary); background:var(--primary-light); }
+.opt:disabled { cursor:default; color:var(--text-main); }
+.opt.dim { opacity:.6; }
+.opt.correct { border-color:#16a34a; background:rgba(22,163,74,.14); }
+.opt.wrong { border-color:#dc2626; background:rgba(220,38,38,.14); }
+.mark {
+  flex:none; width:1.9rem; height:1.9rem; border-radius:50%; border:1px solid var(--border);
+  display:grid; place-items:center; font-weight:600; font-size:.9rem; color:var(--text-muted);
+}
+.opt.correct .mark { background:#16a34a; border-color:#16a34a; color:#fff; }
+.opt.wrong .mark { background:#dc2626; border-color:#dc2626; color:#fff; }
+.opt code, .q-fb code { direction:ltr; display:inline-block; font-size:.88rem; }
+.q-fb code { color:var(--primary); }
+.q-fb {
+  display:none; margin-top:1rem; padding:.8rem 1rem; border-radius:8px; border-right:4px solid;
+  background:var(--bg-body); color:var(--text-muted); font-size:.98rem;
+}
+.q-fb.show { display:block; }
+.q-fb.ok { border-color:#16a34a; }
+.q-fb.no { border-color:#dc2626; }
+.quiz-result { text-align:center; }
+.res-score { font-size:2.8rem; font-weight:700; color:var(--primary); line-height:1.3; }
+.res-links { display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; margin:1rem 0; }
+.res-links a { color:var(--primary); background:var(--primary-light); text-decoration:none; padding:.3rem .9rem; border-radius:99px; font-size:.9rem; }
+.btn {
+  background:var(--primary); color:var(--bg-card); border:none; border-radius:6px; padding:.6rem 1.4rem;
+  font:600 .95rem inherit; font-family:inherit; cursor:pointer;
+}
+.btn:hover { opacity:.9; }
+
+@media (max-width:768px) {
+  body { flex-direction:column; }
+  .sidebar { width:100%; height:auto; position:relative; border-left:none; border-bottom:1px solid var(--border); padding:1rem; }
+  .brand { margin-bottom:1rem; }
+  .sidebar ul { display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; }
+  .sidebar li { margin:0; }
+  .main-content { margin-right:0; width:100%; padding:1.5rem; }
+  .hero h1 { font-size:1.8rem; }
+  .glossary-item { flex-direction:column; gap:.2rem; }
+  .theme-btn { bottom:10px; left:10px; padding:.5rem .8rem; font-size:.8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="sidebar" aria-label="أقسام المرجع">
+  <p class="brand">مرجع ITGS226</p>
+  <ul>
+    <li><a href="#intro">مقدمة عن المادة</a></li>
+    <li><a href="#lec1">المحاضرة الأولى: الأساسيات</a></li>
+    <li><a href="#lec2">المحاضرة الثانية: العناصر المتقدمة</a></li>
+    <li><a href="#glossary">قاموس المبتدئين</a></li>
+    <li><a href="#sandbox">مختبر التطبيق</a></li>
+    <li><a href="#quiz">اختبر نفسك</a></li>
+  </ul>
+</nav>
+
+<button class="theme-btn" id="themeBtn" type="button" aria-pressed="false" onclick="toggleTheme()">تغيير المظهر</button>
+
+<main class="main-content">
+
+  <header id="intro" class="hero">
+    <h1>دليل أساسيات تطوير الويب (HTML5)</h1>
+    <p>منصة تعليمية تفاعلية مبنية لتبسيط مفاهيم مادة "مقدمة في برمجة الإنترنت" وتطبيقها عملياً.</p>
+    <div class="meta">إعداد الطالب: أنس أسامة | إشراف: د. المكي فرج</div>
+  </header>
+
+  <section id="lec1">
+    <h2 class="section-title">المحاضرة الأولى: كيف يعمل الإنترنت؟</h2>
+
+    <div class="card">
+      <h3>1. شرح مبسط: كيف يصل الموقع إلى جهازك؟</h3>
+      <p>تخيل أنك تريد الاتصال بصديق، أنت تعرف اسمه (مثل Google) لكنك لا تعرف رقم هاتفه. إليك ما يحدث بالضبط:</p>
+      <ul>
+        <li><strong>المتصفح (Client):</strong> هو أنت، تطلب الموقع.</li>
+        <li><strong>الـ DNS:</strong> هو "دليل الهاتف". أنت تعطيه اسم النطاق (Domain Name) مثل <span class="keyword">google.com</span>، وهو يعطيك العنوان الرقمي (IP Address).</li>
+        <li><strong>الـ IP Address:</strong> هو العنوان الفريد للكمبيوتر (مثل رقم منزلك). المتصفح يستخدمه ليعرف أين يذهب بالضبط.</li>
+        <li><strong>السيرفر (Server):</strong> هو الكمبيوتر الذي يحتفظ بملفات الموقع، ويقوم بإرسالها لك.</li>
+        <li><strong>الـ HTTP:</strong> هي لغة الاتصال بين المتصفح والسيرفر (مثل لغة التخاطب في الهاتف).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>2. هيكل صفحة HTML (HTML Page Structure)</h3>
+      <p>كل صفحة ويب يجب أن تحتوي على هيكل أساسي:</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;عنوان الصفحة (يظهر في التبويب)&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;المحتوى الذي يراه المستخدم&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+      <p><strong>ملاحظة:</strong> الـ <span class="keyword">&lt;head&gt;</span> يحتوي على معلومات للمتصفح لا يراها الزائر، بينما الـ <span class="keyword">&lt;body&gt;</span> هو كل ما يظهر على الشاشة.</p>
+    </div>
+
+    <div class="card">
+      <h3>3. الفرق بين Block و Inline</h3>
+      <p>عند بناء الصفحة، العناصر تتصرف بطريقتين:</p>
+      <ul>
+        <li><strong>Block Elements:</strong> تأخذ سطراً كاملاً لنفسها (مثل الفقرات <span class="keyword">&lt;p&gt;</span> والعناوين <span class="keyword">&lt;h1&gt;</span>).</li>
+        <li><strong>Inline Elements:</strong> تأخذ مساحة الكلمة فقط وتجلس بجانب غيرها (مثل الروابط <span class="keyword">&lt;a&gt;</span> والصور <span class="keyword">&lt;img&gt;</span>).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="lec2">
+    <h2 class="section-title">المحاضرة الثانية: العناصر المتقدمة</h2>
+
+    <div class="card">
+      <h3>1. الروابط (Links)</h3>
+      <p>نستخدم <span class="keyword">&lt;a&gt;</span> لإنشاء رابط، ونضع الرابط في الخاصية <span class="keyword">href</span>.</p>
+      <ul>
+        <li><strong>الرابط المطلق (Absolute URL):</strong> يحتوي على الرابط الكامل مثل <code>https://google.com</code>.</li>
+        <li><strong>الرابط النسبي (Relative URL):</strong> يشير لملف داخل موقعك مثل <code>about.html</code>.</li>
+        <li><strong>خاصية target:</strong> نستخدم <span class="keyword">target="_blank"</span> لفتح الرابط في نافذة جديدة. يُفضّل إضافة <span class="keyword">rel="noopener"</span> معها لحماية الصفحة الأصلية.</li>
+        <li><strong>المرساة (Bookmark):</strong> للانتقال لقسم في نفس الصفحة، نعطي القسم <span class="keyword">id="section1"</span> ونربط له بـ <span class="keyword">href="#section1"</span>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>2. الصور (Images)</h3>
+      <p>نستخدم <span class="keyword">&lt;img&gt;</span> وهو عنصر فارغ (لا يحتاج وسم إغلاق).</p>
+      <ul>
+        <li><strong>src:</strong> مسار الصورة.</li>
+        <li><strong>alt:</strong> نص بديل يظهر إذا تعذّر تحميل الصورة، وتقرؤه قارئات الشاشة للمستخدمين ضعاف البصر، كما يفيد محركات البحث.</li>
+        <li><strong>title:</strong> يظهر كتلميح (Tooltip) عند وضع الماوس على الصورة.</li>
+        <li>يمكن استخدام <span class="keyword">&lt;figure&gt;</span> و <span class="keyword">&lt;figcaption&gt;</span> لربط الصورة بشرح تحتها.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>3. تنسيقات النصوص (Text Formatting)</h3>
+      <ul>
+        <li><span class="keyword">&lt;strong&gt;</span> (أهمية عالية / عريض) و <span class="keyword">&lt;em&gt;</span> (تأكيد / مائل).</li>
+        <li><span class="keyword">&lt;mark&gt;</span> (تظليل نص)، <span class="keyword">&lt;del&gt;</span> (نص محذوف/مشطوب)، <span class="keyword">&lt;ins&gt;</span> (نص مضاف/تحته خط).</li>
+        <li><span class="keyword">&lt;sub&gt;</span> (نص سفلي مثل H<sub>2</sub>O) و <span class="keyword">&lt;sup&gt;</span> (نص علوي مثل 2<sup>2</sup>).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>4. الاقتباسات والاختصارات</h3>
+      <ul>
+        <li><span class="keyword">&lt;blockquote&gt;</span>: اقتباس طويل.</li>
+        <li><span class="keyword">&lt;q&gt;</span>: اقتباس قصير يظهر بين علامتي تنصيص.</li>
+        <li><span class="keyword">&lt;abbr&gt;</span>: اختصار (مثل HTML)، نضع الشرح في خاصية <span class="keyword">title</span>.</li>
+        <li><span class="keyword">&lt;address&gt;</span>: معلومات التواصل مع مؤلف الصفحة.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="glossary">
+    <h2 class="section-title">قاموس المبتدئين</h2>
+    <div class="card" style="padding:0">
+      <div class="glossary-item"><div class="glossary-term">URL</div><div class="glossary-def">عنوان الموقع (مثل www.google.com).</div></div>
+      <div class="glossary-item"><div class="glossary-term">DNS</div><div class="glossary-def">دليل الهاتف، يحوّل اسم النطاق إلى عنوان رقمي.</div></div>
+      <div class="glossary-item"><div class="glossary-term">IP Address</div><div class="glossary-def">رقم فريد يحدد موقع الكمبيوتر على الإنترنت.</div></div>
+      <div class="glossary-item"><div class="glossary-term">HTTP</div><div class="glossary-def">البروتوكول الذي ينقل البيانات بين المتصفح والسيرفر.</div></div>
+      <div class="glossary-item"><div class="glossary-term">W3C</div><div class="glossary-def">المنظمة العالمية التي تضع قواعد ومعايير الويب.</div></div>
+      <div class="glossary-item"><div class="glossary-term">Attribute</div><div class="glossary-def">خاصية إضافية نضعها داخل الوسم (مثل src و alt).</div></div>
+    </div>
+  </section>
+
+  <section id="sandbox">
+    <h2 class="section-title">مختبر التطبيق (Live Editor)</h2>
+    <div class="card">
+      <p>قم بتعديل الكود في المربع، وسترى النتيجة فوراً.</p>
+      <div class="sandbox-container">
+        <div class="sandbox-box">
+          <div class="sandbox-header">index.html</div>
+<textarea id="codeArea" spellcheck="false" aria-label="محرر كود HTML"><h1>مرحباً بكم</h1>
+<p>هذا الموقع يوضح لك كيف يعمل <strong>HTML</strong>.</p>
+<a href="https://www.w3schools.com" target="_blank" rel="noopener">اضغط هنا للتعلم</a>
+<ul>
+  <li>الدرس الأول: الأساسيات</li>
+  <li>الدرس الثاني: الروابط والصور</li>
+</ul></textarea>
+        </div>
+        <div class="sandbox-box">
+          <div class="sandbox-header">النتيجة (Preview)</div>
+          <iframe id="previewFrame" title="نتيجة الكود" sandbox="allow-scripts allow-popups"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <h2 class="section-title">اختبر نفسك</h2>
+    <div class="quiz-top">
+      <span id="quizCount">0 / 5</span>
+      <div class="quiz-bar" aria-hidden="true"><span id="quizBar"></span></div>
+    </div>
+    <div id="quizList"></div>
+    <div class="card quiz-result" id="quizResult" hidden aria-live="polite">
+      <div class="res-score" id="resScore"></div>
+      <p id="resMsg"></p>
+      <div class="res-links" id="resLinks"></div>
+      <button class="btn" id="quizRetry" type="button">إعادة الاختبار</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>تم التطوير بواسطة الطالب: أنس أسامة | مادة ITGS226 - خريف 2023</p>
+  </footer>
+
+</main>
+
+<script>
+/* المظهر */
+const root = document.documentElement, themeBtn = document.getElementById('themeBtn');
+function syncBtn() { themeBtn.setAttribute('aria-pressed', root.classList.contains('dark-mode')); }
+function toggleTheme() {
+  const dark = root.classList.toggle('dark-mode');
+  try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+  syncBtn();
+}
+syncBtn();
+
+/* تمييز القسم الحالي في القائمة */
+const links = [...document.querySelectorAll('.sidebar a')];
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting)
+      links.forEach(a => a.classList.toggle('active', a.hash === '#' + en.target.id));
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+links.forEach(a => { const s = document.querySelector(a.hash); if (s) spy.observe(s); });
+
+/* المحرر الحي: srcdoc داخل iframe معزول */
+const codeArea = document.getElementById('codeArea'), frame = document.getElementById('previewFrame');
+function updatePreview() {
+  frame.srcdoc = '<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><base target="_blank">' +
+    '<style>body{font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;padding:10px;line-height:1.7;color:#1e293b}' +
+    'a{color:#1d4ed8}</style></head><body>' + codeArea.value + '</body></html>';
+}
+codeArea.addEventListener('input', updatePreview);
+updatePreview();
+
+/* الاختبار: 5 أسئلة تغطي كل الدروس */
+const quiz = [
+  { lesson:'المحاضرة الأولى: كيف يعمل الإنترنت', ref:'#lec1',
+    q:'ما وظيفة الـ DNS عند كتابتك عنوان موقع في المتصفح؟',
+    o:['تخزين ملفات الموقع وإرسالها إلى المتصفح','تحويل اسم النطاق إلى عنوان IP رقمي','نقل البيانات بين المتصفح والسيرفر','وضع قواعد ومعايير الويب'], a:1,
+    e:'الـ DNS مثل دليل الهاتف: يحوّل اسم النطاق (مثل google.com) إلى عنوان IP. تخزين الملفات وظيفة السيرفر، ونقل البيانات وظيفة HTTP، ووضع المعايير مهمة W3C.' },
+  { lesson:'المحاضرة الأولى: هيكل صفحة HTML', ref:'#lec1',
+    q:'داخل أي وسم نضع المحتوى الذي يراه الزائر على الشاشة؟',
+    o:['<code>&lt;head&gt;</code>','<code>&lt;title&gt;</code>','<code>&lt;body&gt;</code>','<code>&lt;!DOCTYPE html&gt;</code>'], a:2,
+    e:'<code>&lt;body&gt;</code> يحتوي كل ما يظهر في الصفحة. أما <code>&lt;head&gt;</code> فيحمل معلومات للمتصفح، و<code>&lt;title&gt;</code> يظهر في التبويب فقط.' },
+  { lesson:'المحاضرة الأولى: Block و Inline', ref:'#lec1',
+    q:'أي العناصر التالية يُعد Inline، أي لا يأخذ سطراً كاملاً لنفسه؟',
+    o:['<code>&lt;a&gt;</code>','<code>&lt;p&gt;</code>','<code>&lt;h1&gt;</code>','<code>&lt;blockquote&gt;</code>'], a:0,
+    e:'الروابط <code>&lt;a&gt;</code> والصور <code>&lt;img&gt;</code> عناصر Inline. أما الفقرات والعناوين والاقتباسات الطويلة فعناصر Block تأخذ سطراً كاملاً.' },
+  { lesson:'المحاضرة الثانية: الروابط', ref:'#lec2',
+    q:'ما الكود الصحيح لرابط ينقل الزائر إلى قسم له <code>id="section1"</code> في نفس الصفحة؟',
+    o:['<code>&lt;a src="section1"&gt;</code>','<code>&lt;a href="section1"&gt;</code>','<code>&lt;a target="#section1"&gt;</code>','<code>&lt;a href="#section1"&gt;</code>'], a:3,
+    e:'رابط المرساة يستخدم <code>href</code> مع الرمز # قبل قيمة الـ id. بدون # يبحث المتصفح عن ملف بهذا الاسم، و<code>target</code> يحدد مكان فتح الرابط (مثل <code>_blank</code>) وليس وجهته.' },
+  { lesson:'المحاضرة الثانية: الصور والنصوص والاقتباسات', ref:'#lec2',
+    q:'أي ربط بين الوسم ووظيفته صحيح؟',
+    o:['<code>&lt;q&gt;</code>: اقتباس طويل','<code>&lt;ins&gt;</code>: نص مضاف يظهر عادةً تحته خط','<code>&lt;abbr&gt;</code>: معلومات التواصل مع مؤلف الصفحة','<code>&lt;figcaption&gt;</code>: النص البديل للصورة'], a:1,
+    e:'<code>&lt;q&gt;</code> للاقتباس القصير، و<code>&lt;abbr&gt;</code> للاختصارات، و<code>&lt;address&gt;</code> لمعلومات التواصل. أما <code>&lt;figcaption&gt;</code> فهو الشرح الظاهر تحت الصورة، والنص البديل هو الخاصية <code>alt</code>.' }
+];
+const letters = ['أ', 'ب', 'ج', 'د'];
+const quizList = document.getElementById('quizList'), quizRes = document.getElementById('quizResult');
+let answered = 0, score = 0, missed = [];
+
+function updateBar() {
+  document.getElementById('quizCount').textContent = answered + ' / ' + quiz.length;
+  document.getElementById('quizBar').style.width = (answered / quiz.length * 100) + '%';
+}
+function buildQuiz() {
+  quizList.innerHTML = ''; quizRes.hidden = true; answered = score = 0; missed = []; updateBar();
+  quiz.forEach((it, i) => {
+    const c = document.createElement('article');
+    c.className = 'q-card';
+    c.innerHTML =
+      `<div class="q-head"><span class="q-num">السؤال ${i + 1}</span><span class="q-lesson">${it.lesson}</span></div>` +
+      `<p class="q-text" id="qt${i}">${it.q}</p>` +
+      `<div class="opts" role="group" aria-labelledby="qt${i}">` +
+      it.o.map((o, j) => `<button type="button" class="opt"><span class="mark">${letters[j]}</span><span>${o}</span></button>`).join('') +
+      `</div><div class="q-fb" role="status"></div>`;
+    c.querySelectorAll('.opt').forEach((b, j) => b.addEventListener('click', () => pick(c, it, j)));
+    quizList.appendChild(c);
+  });
+}
+function pick(c, it, j) {
+  const ok = j === it.a, fb = c.querySelector('.q-fb');
+  c.querySelectorAll('.opt').forEach((b, k) => {
+    b.disabled = true;
+    if (k === it.a) { b.classList.add('correct'); b.firstChild.textContent = '✓'; }
+    else if (k === j) { b.classList.add('wrong'); b.firstChild.textContent = '✕'; }
+    else b.classList.add('dim');
+  });
+  fb.className = 'q-fb show ' + (ok ? 'ok' : 'no');
+  fb.innerHTML = '<strong>' + (ok ? 'إجابة صحيحة. ' : 'إجابة غير صحيحة. ') + '</strong>' + it.e;
+  answered++;
+  if (ok) score++; else missed.push(it);
+  updateBar();
+  if (answered === quiz.length) showResult();
+}
+function showResult() {
+  const r = score / quiz.length;
+  document.getElementById('resScore').textContent = score + ' / ' + quiz.length;
+  document.getElementById('resMsg').textContent = r === 1 ? 'ممتاز! أتقنت جميع الدروس.'
+    : r >= 0.6 ? 'أداء جيد. راجع الدروس التالية لتثبيت المعلومات:' : 'تحتاج إلى مراجعة إضافية. ابدأ بالدروس التالية:';
+  const refs = [...new Map(missed.map(m => [m.lesson, m.ref])).entries()];
+  document.getElementById('resLinks').innerHTML = refs.map(([l, ref]) => `<a href="${ref}">${l}</a>`).join('');
+  quizRes.hidden = false;
+  quizRes.scrollIntoView({ block: 'nearest' });
+}
+document.getElementById('quizRetry').addEventListener('click', () => {
+  buildQuiz();
+  document.getElementById('quiz').scrollIntoView();
+});
+buildQuiz();
+</script>
+</body>
+</html>
